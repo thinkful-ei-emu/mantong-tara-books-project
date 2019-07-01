@@ -5,15 +5,27 @@ import ResultsList from './results-list';
 import Search from './search';
 import Result from './result';
 
-function App() {
+export default class App extends React.Component  {
+  handleChange=(event)=>{
+    const name=event.target.name;
+    this.setState({[name]: event.target.value});
+
+  }
+  handleSubmits=(event)=>{
+    event.preventDefault();
+   
+    
+  }
+  render(){
   return (
     <div>
+      
       <Header />
       <Search />
       <ResultsList />
       <Result />
     </div>
-  );
+  );}
 }
 
-export default App;
+
