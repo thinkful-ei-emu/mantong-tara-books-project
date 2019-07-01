@@ -1,12 +1,16 @@
 import React from 'react';
-
+import './result.css';
 const Result = function(props) {
   return (<div>
     <h2>{props.title}</h2>
-    <img src={props.image} alt={`${props.title} thumbnail`}/>
-    <p>Authors: {props.authors}</p>
-    <p>{props.desc}</p>
-    <p>{props.price}</p>
+    <div className="content">
+      <img src={props.image} alt={`${props.title} thumbnail`}/>
+      <div className="con">
+        <p>Authors: {props.authors}</p>
+        <p>{props.desc}</p>
+        <p>{props.price}</p>
+      </div>
+    </div>
   </div>);
 }
 

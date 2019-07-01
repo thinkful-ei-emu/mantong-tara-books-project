@@ -1,0 +1,24 @@
+/* h2{
+ text-align: center;
+}
+.content{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+}
+
+img, .cont{
+  display:inline-block;
+  flex-shrink: 1;
+} */
+h2{
+    text-align: center;
+    clear:left;
+   }
+img{
+    float:left;
+    padding:20px;
+    vertical-align: middle;
+}
+
