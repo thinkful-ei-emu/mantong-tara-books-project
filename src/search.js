@@ -5,9 +5,9 @@ class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state= {
-      search: null,
-      filter:null,
-      printType: null,
+      search: '',
+      filter: '',
+      printType: '',
       error:null
     }
   }
@@ -92,6 +92,12 @@ class Search extends React.Component {
           error:err.message
         });
       });
+
+      this.setState({
+        search: '',
+        filter: '',
+        printType: ''
+      })
   }
 
   render() {
@@ -105,19 +111,19 @@ class Search extends React.Component {
         </div>}
       <div className="search-bar">
         <label htmlFor="search">Search:</label>
-        <input onChange={e=>this.handleChange(e)} type="text" id="search" name="search"/>
+        <input onChange={e=>this.handleChange(e)} type="text" id="search" value={this.state.search} name="search"/>
         <button type="submit">Search</button>
       </div>
 
       <div className="filters">
         <label htmlFor="print-type">Print Type:</label>
-        <select onChange={e=>this.handleChange(e)} id="print-type" name="printType">
+        <select onChange={e=>this.handleChange(e)} id="print-type" name="printType" value={this.state.printType}>
           <option>All</option>
           <option value="books">Books</option>
           <option value="magazines">Magazines</option>
         </select>
         <label className="filter-select" htmlFor="filter">Filter:</label>
-        <select onChange={e=>this.handleChange(e)} id="filter" name="filter" >
+        <select onChange={e=>this.handleChange(e)} id="filter" name="filter" value={this.state.filter} >
           <option value=''>No Filter</option>
           <option value="ebooks">Ebooks</option>
           <option value="free-ebooks">Free Ebooks</option>
