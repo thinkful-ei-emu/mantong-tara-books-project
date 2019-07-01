@@ -1,3 +1,6 @@
+*{
+  box-sizing: border-box;
+}
 .App {
   text-align: center;
 }
@@ -31,3 +34,44 @@
     transform: rotate(360deg);
   }
 }
+header{
+  background-color: black;
+  color:white;
+  height: 200px;
+  text-align: center;
+  padding-top: 65px;
+}
+
+.error {
+  color: red;
+  font-size: 20px;
+  background-color: gray;
+}
+
+.search-bar {
+  padding: 10px;
+  background-color: gray;
+  text-align: center;
+}
+
+.filters {
+  padding: 10px;
+  background-color: lightgray;
+  text-align: center;
+}
+
+.search-bar > input {
+  margin: 0px 10px;
+}
+
+.filters > select {
+  margin: 0px 10px;
+}
+
+.filter-select {
+  margin-left: 25px;
+}
+
+
+
+

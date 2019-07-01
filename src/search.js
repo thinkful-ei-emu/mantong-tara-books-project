@@ -11,11 +11,13 @@ class Search extends React.Component {
       error:null
     }
   }
-  handleChange=(event)=>{
-    const name=event.target.name;
-    this.setState({[name]: event.target.value});
 
+  handleChange = (event) => {
+    const name = event.target.name;
+    console.log('name', name, 'value', event.target.value);
+    this.setState({[name]: event.target.value}, console.log(this.state));
   }
+
   handleSubmit=(event)=>{
     event.preventDefault();
     //check if filter or printType are null, and if so, not include them in the fetch
@@ -26,23 +28,33 @@ class Search extends React.Component {
     let fullParamString;
     let typeString;
     let filterString;
-    if(!this.state.printType===null){
+    if(this.state.printType) {
+      
       typeString = `printType=${this.state.printType}`;
       
-      if (!this.state.filter===null ){
+      if (this.state.filter) {
       
-      filterString = `filter=${this.state.filter}`;
-      fullParamString = [apiKey, searchTermString,typeString,filterString].join('&');}
+        filterString = `filter=${this.state.filter}`;
+        fullParamString = [apiKey, searchTermString,typeString,filterString].join('&');
+      }
       
-      else {fullParamString = [apiKey, searchTermString,typeString].join('&');}}
-    else if(this.state.filter){
+      else {
+        fullParamString = [apiKey, searchTermString,typeString].join('&');
+      }
+
+    }
+
+    else if(this.state.filter) {
       filterString = `filter=${this.state.filter}`;
-      fullParamString=[apiKey,searchTermString,filterString].join('&');}
- fullParamString = [apiKey, searchTermString].join('&');
+      fullParamString=[apiKey,searchTermString,filterString].join('&');
+    }
+
+    else {
+      fullParamString = [apiKey, searchTermString].join('&');
+    }
     
     fetch('https://www.googleapis.com/books/v1/volumes?'+fullParamString)
       .then(res=>{
-        console.log(res);
         if(!res.ok){
           throw new Error('Somthing went wrong, please try again later.');
         }
@@ -51,10 +63,8 @@ class Search extends React.Component {
         
       .then(res=>res.json())
       .then(data => {
-        console.log(data);
         
         const books = data.items.map(book => {
-          console.log(book);
           const title = book.volumeInfo.title;
           const authors = book.volumeInfo.authors;
           const image = book.volumeInfo.imageLinks.thumbnail;
@@ -63,7 +73,6 @@ class Search extends React.Component {
             desc = book.volumeInfo.description.split('.')[0];
           }
           let price;
-          console.log(desc[0]);
           if (book.saleInfo.saleability === "FREE") {
             price = "Free";
           }else if(book.saleInfo.saleability==="NOT_FOR_SALE"){
@@ -79,14 +88,10 @@ class Search extends React.Component {
         
       })
       .catch(err=>{
-        console.log(err.message);
         this.setState({
           error:err.message
         });
       });
-      
-     
-     
   }
 
   render() {
@@ -95,27 +100,32 @@ class Search extends React.Component {
     return (
     <form onSubmit={e=>this.handleSubmit(e)}>
       {this.state.error  && 
-        <div>
+        <div className="error">
         please enter again
         </div>}
-      <label htmlFor="search">Search</label>
-      <input onChange={e=>this.handleChange(e)} type="text" id="search" name="search"/>
-      <button type="submit">Search</button>
-      <label htmlFor="print-type" >Print Type</label>
-      <select onChange={e=>this.handleChange(e)} id="print-type" name="printType">
-        <option>All</option>
-        <option value="books">Books</option>
-        <option value="magazines">Magazines</option>
-      </select>
-      <label htmlFor="filter">Filter</label>
-      <select onChange={e=>this.handleChange(e)} id="filter" name="filter" >
-        <option>No Filter</option>
-        <option value="ebooks">Ebooks</option>
-        <option value="free-ebooks">Free Ebooks</option>
-        <option value="full">Full</option>
-        <option value="paid-ebooks">Paid Ebooks</option>
-        <option value="partial">Partial</option>
-      </select>
+      <div className="search-bar">
+        <label htmlFor="search">Search:</label>
+        <input onChange={e=>this.handleChange(e)} type="text" id="search" name="search"/>
+        <button type="submit">Search</button>
+      </div>
+
+      <div className="filters">
+        <label htmlFor="print-type">Print Type:</label>
+        <select onChange={e=>this.handleChange(e)} id="print-type" name="printType">
+          <option>All</option>
+          <option value="books">Books</option>
+          <option value="magazines">Magazines</option>
+        </select>
+        <label className="filter-select" htmlFor="filter">Filter:</label>
+        <select onChange={e=>this.handleChange(e)} id="filter" name="filter" >
+          <option value=''>No Filter</option>
+          <option value="ebooks">Ebooks</option>
+          <option value="free-ebooks">Free Ebooks</option>
+          <option value="full">Full</option>
+          <option value="paid-ebooks">Paid Ebooks</option>
+          <option value="partial">Partial</option>
+        </select>
+      </div>
     </form>);
     
     
