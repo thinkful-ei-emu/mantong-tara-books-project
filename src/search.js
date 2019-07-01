@@ -27,7 +27,30 @@ class Search extends React.Component {
     const fullParamString = [apiKey, searchTermString,typeString,filterString].join('&');
     fetch('https://www.googleapis.com/books/v1/volumes?'+fullParamString)
       .then(res=>res.json())
-      .then(data => {console.log(data)});
+      .then(data => {
+        console.log(data);
+        const books = data.items.map(book => {
+          console.log(book);
+          const title = book.volumeInfo.title;
+          const authors = book.volumeInfo.authors;
+          const image = book.volumeInfo.imageLinks.thumbnail;
+          let desc;
+          if (book.volumeInfo.description){
+            desc = book.volumeInfo.description.split('.')[0];
+          }
+          let price;
+          console.log(desc[0]);
+          if (book.saleInfo.saleability === "FREE") {
+            price = "Free";
+          }
+          else {
+            price = book.saleInfo.retailPrice.amount;
+          }
+          return {title, authors, image, desc, price};
+        });
+        this.setState({books});
+        this.props.handleSearch(this.state.books);
+      });
   }
 
   render() {
